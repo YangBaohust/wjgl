@@ -8,7 +8,7 @@
 前端采用html + css + js
 
 这是本人的第二个开源项目，希望你们能喜欢，有bug可以联系我(yangbhust@163.com)
-项目的经过可以看本人博客https://www.cnblogs.com/ddzj01/p/11316837.html
+项目的经过可以看本人博客https://www.cnblogs.com/ddzj01/p/11452940.html
 
 # 下面是项目的部分截图
 登录
