@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'files/css/file-list.css' %}">
+    {% block custome_css %}{% endblock %}
+</head>
+<body>
+    <div class="nav">
+        <div class="nav-left">某某公司文件管理</div>
+        <div class="nav-right">
+            <div class="nav-right-name">{{ request.user.username }}<i class="fa fa-caret-down" aria-hidden="true"></i>
+                <dl class="nav-right-signout">
+                    <dd><a href="{% url 'users:pwd_modify' %}">修改密码</a></dd>
+                    <dd><a href="{% url 'users:logout' %}">退出</a></dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar" id="sidebar">
+        <ul>
+            <li {% ifequal request.path '/' %}class="active-li"{% endifequal %}><a href="{% url 'index' %}"><i class="fa fa-table" aria-hidden="true"></i><span>文件列表</span></a></li>
+            {% if request.user.role == '1' or request.user.is_superuser == 1 %}
+                <li {% ifequal request.path|slice:11 '/users/list' %}class="active-li"{% endifequal %}><a href="{% url 'users:list' %}"><i class="fa fa-user" aria-hidden="true"></i><span class="">人员管理</span></a></li>
+                <li {% ifequal request.path|slice:18 '/files/upload_host' %}class="active-li"{% endifequal %}><a href="{% url 'files:upload_host' %}"><i class="fa fa-cog" aria-hidden="true"></i><span class="">设置</span></a></li>
+            {% endif %}
+            {% if request.user.role == '2' or request.user.is_superuser == 1 %}
+                <li {% ifequal request.path|slice:18 '/users/operate_log' %}class="active-li"{% endifequal %}><a href="{% url 'users:operate_log' %}"><i class="fa fa-book" aria-hidden="true"></i><span class="">日志记录</span></a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="wrapper">
+        {% block content %}{% endblock %}
+    </div>
+    <script>
+        var sidebar = document.getElementById("sidebar");
+        var content_height = document.body.scrollHeight>window.innerHeight?document.body.scrollHeight-48:window.innerHeight-48;
+        sidebar.style.height = content_height+'px';
+    </script>
+    {% block custome_js %}{% endblock %}
+</body>
+</html>

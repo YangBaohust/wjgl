@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}文件管理 - 文件列表{% endblock %}
+{% block custome_css %}{% endblock %}
+{% block content %}
+    <div class="content">
+        <p>文件列表</p>
+        <div class="form-class">
+            <form action="" method="get">
+                <input id="search" class="form-text" type="text" placeholder="搜索..." name="search" value="{% if search %}{{ search }}{% endif %}"/>
+                <button class="form-submit" type="submit">
+                    <i class='fa fa-search' aria-hidden='true'></i>
+                </button>
+            </form>
+        </div>
+            <button class="button-insert" id="btn_add">上传文件</button>
+        {% if request.user.role == '1' or request.user.is_superuser == 1 %}
+            <button class="button-insert" id="btn_export_list">导出列表</button>
+        {% endif %}
+        <br/><br/>
+        <table class="table-list">
+            <thead>
+                <tr>
+                    <th>文件编号</th>
+                    <th>文件名称</th>
+                    <th>上传用户</th>
+                    <th>上传时间</th>
+                    <th>下载</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for file in p_files.object_list %}
+                    <tr>
+                        <td>{{ file.id }}</td>
+                        <td>{{ file.filename }}</td>
+                        <td>{{ file.owner }}</td>
+                        <td>{{ file.add_time|date:"Y-m-d H:i:s" }}</td>
+                        <td><a href="{% url 'files:download' file.id %}">Download</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="page">
+            <ul class="pagination">
+                {% if p_files.has_previous %}
+                    <li><a href="?{{ p_files.previous_page_number.querystring }}">&laquo;</a></li>
+                {% endif %}
+                {% for page in p_files.pages %}
+                    {% if page %}
+                        {% ifequal page p_files.number %}
+                            <li class="active"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                        {% else %}
+                            <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                        {% endifequal %}
+                    {% else %}
+                        <li>...</li>
+                    {% endif %}
+                {% endfor %}
+                {% if p_files.has_next %}
+                    <li><a href="?{{ p_files.next_page_number.querystring }}">&raquo;</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+{% block custome_js %}
+    <script>
+        var btn_file_upload = document.getElementById("btn_add");
+        btn_file_upload.onclick = function () {
+            location.href = "{% url 'files:upload' %}";
+        };
+
+        var btn_export_list = document.getElementById("btn_export_list");
+        btn_export_list.onclick = function() {
+            var search = document.getElementById("search").value;
+            var url = "{% url 'files:export' %}";
+            location.href = url + '?search=' + search;
+        }
+    </script>
+{% endblock %}

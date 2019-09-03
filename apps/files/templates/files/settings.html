@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}文件管理 - 设置{% endblock %}
+{% block custome_css %}
+    <link rel="stylesheet" href="{% static 'files/css/file-upload.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="content">
+        <p class="content-note1">指定上传文件的IP<span class="content-note2"> (多个ip用逗号隔开)</span></p>
+        <div style="clear:both"></div>
+        <form class="form-table" action="{% url 'files:upload_host' %}" method="post">
+            <div class="form-list">
+                <span>IP地址</span><input type="text" name="upload_host" value="{{ upload_host.host_ip }}"/>
+            </div>
+            {% if msg %}
+                <div class="error">{{ msg }}</div>
+            {% endif %}
+            <div style="clear:both"></div>
+            <div class="form-list">
+                <input class="form-button" type="submit" value="保存"/>
+            </div>
+            <div class="form-list">
+                 <button class="form-button" type="button" onclick="btn_cancel()">取消</button>
+            </div>
+            {% csrf_token %}
+        </form>
+    </div>
+{% endblock %}
+{% block custome_js %}
+    <script>
+        function btn_cancel() {
+            location.href = "{% url 'index' %}";
+        }
+    </script>
+{% endblock %}
