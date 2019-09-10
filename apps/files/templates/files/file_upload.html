@@ -6,18 +6,18 @@
 {% endblock %}
 {% block content %}
     <div class="content">
-        <p class="content-note1">上传文件<span class="content-note2"> (*请勿上传.exe和.bat文件)</span></p>
+        <p class="content-note1">上传文件<span class="content-note2"> (*请勿上传.exe和.bat和大于500MB的文件)</span></p>
         <div style="clear:both"></div>
         <form class="form-table" enctype="multipart/form-data" action="{% url 'files:upload' %}" method="post">
             <div class="form-list">
-                <input type="file" name="myfile" />
+                <input type="file" id="myfile" name="myfile" onchange="fileChange(this);" />
             </div>
             {% if msg %}
                 <div class="error">{{ msg }}</div>
             {% endif %}
             <div style="clear:both"></div>
             <div class="form-list">
-                <input class="form-button" type="submit"/>
+                <input id="submit_upload" class="form-button" type="submit"/>
             </div>
             <div class="form-list">
                  <button class="form-button" type="button" onclick="btn_cancel()">取消</button>
@@ -30,6 +30,49 @@
     <script>
         function btn_cancel() {
             location.href = "{% url 'index' %}";
+        }
+
+        function fileChange(target){
+            //检测上传文件的类型
+            var fileName = document.getElementById("myfile").value;
+            var upload_btn = document.getElementById("submit_upload");
+            var ext,idx;
+            idx = fileName.lastIndexOf(".");
+            if (idx !== -1){
+                ext = fileName.substr(idx+1).toLowerCase();
+                if (ext === 'bat' || ext === 'exe'){
+                    upload_btn.disabled=true;
+                    upload_btn.style.backgroundColor="grey";
+                    alert("不能上传.exe  .bat类型的文件!");
+                    return;
+                } else {
+                    upload_btn.disabled=false;
+                    upload_btn.style.backgroundColor="rgba(82, 183, 109, 1)";
+                }
+            }
+
+            //检测上传文件的大小
+            var isIE = /msie/i.test(navigator.userAgent) && !window.opera;
+            var fileSize = 0;
+            if (isIE && !target.files){
+                var filePath = target.value;
+                var fileSystem = new ActiveXObject("Scripting.FileSystemObject");
+                var file = fileSystem.GetFile (filePath);
+                fileSize = file.Size;
+            } else {
+                fileSize = target.files[0].size;
+            }
+
+            var size = fileSize / (1024*1024);
+
+            if(size>500){
+                upload_btn.disabled=true;
+                upload_btn.style.backgroundColor="grey";
+                alert("文件大小不能超过500MB");
+            } else {
+                upload_btn.disabled=false;
+                upload_btn.style.backgroundColor="rgba(82, 183, 109, 1)";
+            }
         }
     </script>
 {% endblock %}

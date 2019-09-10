@@ -72,8 +72,6 @@ class FileUploadView(LoginRequiredMixin, View):
         my_file = request.FILES.get('myfile', None)
         if not my_file:
             return render(request, 'files/file_upload.html', {'msg': '没有选择文件'})
-        if my_file.name[-4:].lower() in('.exe', '.bat'):
-            return render(request, 'files/file_upload.html', {'msg': '请勿上传.exe和.bat文件'})
         year = str(datetime.datetime.now().year)
         month = str(datetime.datetime.now().month)
         day = str(datetime.datetime.now().day)

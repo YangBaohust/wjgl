@@ -84,7 +84,7 @@ DATABASES = {
         'NAME': 'wjgl',
         'USER': 'scott',
         'PASSWORD': 'tiger',
-        'HOST': '10.40.16.60',
+        'HOST': 'xxxxxx',
     }
 }
 
@@ -152,4 +152,4 @@ handler404 = 'users.views.page_not_found'
 handler500 = 'users.views.page_error'
 
 # 上传的文件保存路径
-root_path = '/ft'
+root_path = r'D:\dj_project\wjgl\upload'
