@@ -14,7 +14,7 @@
             </form>
         </div>
             <button class="button-insert" id="btn_add">上传文件</button>
-        {% if request.user.role == '1' or request.user.is_superuser == 1 %}
+        {% if request.user.role == '2' or request.user.is_superuser == 1 %}
             <button class="button-insert" id="btn_export_list">导出列表</button>
         {% endif %}
         <br/><br/>

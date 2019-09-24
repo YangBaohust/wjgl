@@ -82,9 +82,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'wjgl',
-        'USER': 'scott',
-        'PASSWORD': 'tiger',
-        'HOST': 'xxxxxx',
+        'USER': 'wjgl',
+        'PASSWORD': 'xxxx',
+        'HOST': 'xxxxx',
     }
 }
 
