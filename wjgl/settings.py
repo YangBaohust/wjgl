@@ -82,9 +82,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'wjgl',
-        'USER': 'wjgl',
-        'PASSWORD': 'xxxx',
-        'HOST': 'xxxxx',
+        'USER': 'scott',
+        'PASSWORD': 'tiger',
+        'HOST': '10.40.16.61',
     }
 }
 
@@ -152,4 +152,7 @@ handler404 = 'users.views.page_not_found'
 handler500 = 'users.views.page_error'
 
 # 上传的文件保存路径
-root_path = r'D:\dj_project\wjgl\upload'
+root_path = '/ft'
+
+# 设置会话关闭浏览器就失效
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
