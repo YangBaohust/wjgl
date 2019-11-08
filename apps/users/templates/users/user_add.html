@@ -1,26 +1,42 @@
 {% extends 'base.html' %}
+
 {% load staticfiles %}
+
 {% block title %}文件管理 - 添加人员{% endblock %}
+
 {% block custome_css %}
-    <link rel="stylesheet" href="{% static 'files/css/file-upload.css' %}">
+    <link rel="stylesheet" href="{% static 'files/css/upload.css' %}">
 {% endblock %}
+
 {% block content %}
     <div class="content">
         <p class="content-note1">添加人员<span class="content-note2"> (标注为*为必填项)</span></p>
         <div style="clear:both"></div>
         <form class="form-table" action="{% url 'users:add' %}" method="post">
             <div class="form-list">
-                <span>*姓名</span><input {% if userinfo_form.errors.username %}class="input-error"{% endif %} type="text" name="username"/>
+                <span>*工号</span><input {% if userinfo_form.errors.userno %}class="input-error"{% endif %} type="text" name="userno" placeholder="不超过15个字符"/>
+            </div>
+            <div class="form-list">
+                <span>*姓名</span><input {% if userinfo_form.errors.username %}class="input-error"{% endif %} type="text" name="username" placeholder="不超过15个字符"/>
             </div>
             <div class="form-list">
                 <span>部门</span><input {% if userinfo_form.errors.department %}class="input-error"{% endif %} type="text" name="department" placeholder="不超过15个字符"/>
             </div>
             <div class="form-list">
-                <span>管理员</span>
+                <span>角色</span>
                 <select name="role">
-                    <option value="2">监察员</option>
-                    <option value="1">管理员</option>
-                    <option value="0" selected>普通用户</option>
+                    <option value="3">监察稽核员</option>
+                    <option value="2">系统管理员</option>
+                    <option value="1" selected>普通员工</option>
+                    <option value="0">离职员工</option>
+                </select>
+            </div>
+            <div class="form-list">
+                <span>子角色</span>
+                <select name="sub_role">
+                    <option value="2">二审员</option>
+                    <option value="1">初审员</option>
+                    <option value="0"  selected>无</option>
                 </select>
             </div>
             {% if msg %}
@@ -37,6 +53,7 @@
         </form>
     </div>
 {% endblock %}
+
 {% block custome_js %}
     <script>
         function btn_cancel() {

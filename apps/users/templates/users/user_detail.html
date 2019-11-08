@@ -1,16 +1,23 @@
 {% extends 'base.html' %}
+
 {% load staticfiles %}
+
 {% block title %}文件管理 - 人员详情{% endblock %}
+
 {% block custome_css %}
-    <link rel="stylesheet" href="{% static 'files/css/file-upload.css' %}">
-    <link rel="stylesheet" href="{% static 'files/css/file-detail.css' %}">
+    <link rel="stylesheet" href="{% static 'files/css/upload.css' %}">
+    <link rel="stylesheet" href="{% static 'files/css/detail.css' %}">
 {% endblock %}
+
 {% block content %}
     <div class="content">
         <p class="content-note1">修改人员<span class="content-note2"> (标注为*为必填项)</span></p>
         <div style="clear:both"></div>
         <form class="form-table" action="{% url 'users:modify' %}" method="post">
             <input type="hidden" id="user_id" name="user_id" value="{{ user.id }}"/>
+            <div class="form-list">
+                <span>*工号</span><input {% if userinfo_form.errors.userno %}class="input-error"{% endif %} type="text" id="userno" name="userno" value="{{ user.userno }}"/>
+            </div>
             <div class="form-list">
                 <span>*姓名</span><input {% if userinfo_form.errors.username %}class="input-error"{% endif %} type="text" id="username" name="username" value="{{ user.username }}"/>
             </div>
@@ -20,9 +27,18 @@
             <div class="form-list">
                 <span>角色</span>
                 <select name="role">
-                    <option value="2" {% ifequal user.role '2' %}selected{% endifequal %}>监察员</option>
-                    <option value="1" {% ifequal user.role '1' %}selected{% endifequal %}>管理员</option>
-                    <option value="0" {% ifequal user.role '0' %}selected{% endifequal %}>普通用户</option>
+                    <option value="3" {% ifequal user.role '3' %}selected{% endifequal %}>监察稽核员</option>
+                    <option value="2" {% ifequal user.role '2' %}selected{% endifequal %}>系统管理员</option>
+                    <option value="1" {% ifequal user.role '1' %}selected{% endifequal %}>普通员工</option>
+                    <option value="0" {% ifequal user.role '0' %}selected{% endifequal %}>离职员工</option>
+                </select>
+            </div>
+            <div class="form-list">
+                <span>子角色</span>
+                <select name="sub_role">
+                    <option value="2" {% ifequal user.sub_role '2' %}selected{% endifequal %}>二审员</option>
+                    <option value="1" {% ifequal user.sub_role '1' %}selected{% endifequal %}>初审员</option>
+                    <option value="0" {% ifequal user.sub_role '0' %}selected{% endifequal %}>无</option>
                 </select>
             </div>
             {% if msg %}
@@ -42,6 +58,7 @@
         </form>
 </div>
 {% endblock %}
+
 {% block custome_js %}
     <script>
         function btn_cancel() {

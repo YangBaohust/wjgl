@@ -1,16 +1,21 @@
 {% extends 'base.html' %}
+
 {% load staticfiles %}
+
 {% block title %}文件管理 - 设置{% endblock %}
+
 {% block custome_css %}
-    <link rel="stylesheet" href="{% static 'files/css/file-upload.css' %}">
+    <link rel="stylesheet" href="{% static 'files/css/upload.css' %}">
 {% endblock %}
+
 {% block content %}
     <div class="content">
-        <p class="content-note1">指定上传文件的IP<span class="content-note2"> (多个ip用逗号隔开)</span></p>
+        <p class="content-note1">公用电脑设置<span class="content-note2"> (多个值用逗号隔开)</span></p>
+        <p class="content-note2">*如需使用公用电脑下载文件，请先将该公用电脑IP填上</p>
         <div style="clear:both"></div>
-        <form class="form-table" action="{% url 'files:upload_host' %}" method="post">
+        <form class="form-table" action="{% url 'files:public_ip' %}" method="post">
             <div class="form-list">
-                <span>IP地址</span><input type="text" name="upload_host" value="{{ upload_host.host_ip }}"/>
+                <span>公用电脑IP</span><input type="text" name="host_ip" value="{{ public_ip.host_ip }}"/>
             </div>
             {% if msg %}
                 <div class="error">{{ msg }}</div>
@@ -26,6 +31,7 @@
         </form>
     </div>
 {% endblock %}
+
 {% block custome_js %}
     <script>
         function btn_cancel() {

@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
+
 {% load staticfiles %}
+
 {% block title %}文件管理 - 操作日志{% endblock %}
-{% block custome_css %}
-{% endblock %}
+
+{% block custome_css %}{% endblock %}
+
 {% block content %}
     <div class="content">
         <p>操作日志</p>
@@ -15,38 +18,44 @@
             </form>
         </div>
         <br/><br/>
+
         <table class="table-list">
             <thead>
                 <tr>
                     <th>序号</th>
+                    <th>工号</th>
                     <th>人员</th>
                     <th>操作类型</th>
+                    <th>备注</th>
                     <th>文件编号</th>
                     <th>文件名称</th>
                     <th>操作时间</th>
                 </tr>
             </thead>
             <tbody>
-            {% for operate_log in operate_logs.object_list %}
+            {% for content in p_contents.object_list %}
                 <tr>
                     <td>{{ forloop.counter|add:start }}</td>
-                    <td>{{ operate_log.username }}</td>
-                    <td>{{ operate_log.type }}</td>
-                    <td>{{ operate_log.content_id }}</td>
-                    <td>{{ operate_log.content }}</td>
-                    <td>{{ operate_log.modify_time|date:"Y-m-d H:i:s" }}</td>
+                    <td>{{ content.userno }}</td>
+                    <td>{{ content.username }}</td>
+                    <td>{{ content.type }}</td>
+                    <td>{{ content.comment }}</td>
+                    <td>{{ content.fileno }}</td>
+                    <td>{{ content.filename }}</td>
+                    <td>{{ content.modify_time|date:"Y-m-d H:i:s" }}</td>
                 </tr>
             {% endfor %}
-        </tbody>
+            </tbody>
         </table>
+
         <div class="page">
             <ul class="pagination">
-                {% if operate_logs.has_previous %}
-                    <li><a href="?{{ operate_logs.previous_page_number.querystring }}">&laquo;</a></li>
+                {% if p_contents.has_previous %}
+                    <li><a href="?{{ p_contents.previous_page_number.querystring }}">&laquo;</a></li>
                 {% endif %}
-                {% for page in operate_logs.pages %}
+                {% for page in p_contents.pages %}
                     {% if page %}
-                        {% ifequal page operate_logs.number %}
+                        {% ifequal page p_contents.number %}
                             <li class="active"><a href="?{{ page.querystring }}">{{ page }}</a></li>
                         {% else %}
                             <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
@@ -55,8 +64,8 @@
                         <li>...</li>
                     {% endif %}
                 {% endfor %}
-                {% if operate_logs.has_next %}
-                    <li><a href="?{{ operate_logs.next_page_number.querystring }}">&raquo;</a></li>
+                {% if p_contents.has_next %}
+                    <li><a href="?{{ p_contents.next_page_number.querystring }}">&raquo;</a></li>
                 {% endif %}
             </ul>
         </div>

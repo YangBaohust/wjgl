@@ -1,10 +1,14 @@
 {% extends 'base.html' %}
+
 {% load staticfiles %}
+
 {% block title %}文件管理 - 修改密码{% endblock %}
+
 {% block custome_css %}
-    <link rel="stylesheet" href="{% static 'files/css/file-upload.css' %}">
-    <link rel="stylesheet" href="{% static 'files/css/file-detail.css' %}">
+    <link rel="stylesheet" href="{% static 'files/css/upload.css' %}">
+    <link rel="stylesheet" href="{% static 'files/css/detail.css' %}">
 {% endblock %}
+
 {% block content %}
     <div class="content">
         <p class="content-note1">修改密码<span class="content-note2"> (标注为*为必填项)</span></p>
@@ -30,6 +34,7 @@
         </form>
     </div>
 {% endblock %}
+
 {% block custome_js %}
     <script>
         var pwd_reset = document.getElementById("pwd_reset");

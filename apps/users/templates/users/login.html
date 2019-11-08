@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load staticfiles %}
+
 <head>
     <meta charset="UTF-8">
     <title>文件管理 - 登录</title>
     <link rel="stylesheet" href="{% static 'users/css/login.css' %}">
 </head>
+
 <body class="login-bg">
     <div class="login-content">
-        <div class="login-title">某某有限公司文件管理登录</div>
+        <div class="login-title">某某公司文件管理系统登录</div>
         <form action="" method="post">
             <input class="login-input topline {% if login_form.errors.username %}input-error{% endif %}" type="text" name="username" placeholder="用户名">
             <input class="login-input {% if login_form.errors.password %}input-error{% endif %}" type="password" name="password" placeholder="密码">
@@ -20,4 +22,5 @@
         </form>
     </div>
 </body>
+
 </html>

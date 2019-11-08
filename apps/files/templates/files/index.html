@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
+
 {% load staticfiles %}
-{% block title %}文件管理 - 文件列表{% endblock %}
+
+{% block title %}文件管理 - 首页{% endblock %}
+
 {% block custome_css %}{% endblock %}
+
 {% block content %}
     <div class="content">
         <p>文件列表</p>
@@ -13,41 +17,59 @@
                 </button>
             </form>
         </div>
-            <button class="button-insert" id="btn_add">上传文件</button>
-        {% if request.user.role == '2' or request.user.is_superuser == 1 %}
-            <button class="button-insert" id="btn_export_list">导出列表</button>
+            <button class="button-insert" id="btn_upload">上传文件</button>
+        {% if request.user.role == '3' or request.user.is_superuser == 1 %}
+            <button class="button-insert" id="btn_export">导出列表</button>
         {% endif %}
         <br/><br/>
+
         <table class="table-list">
             <thead>
                 <tr>
+                    <th>序号</th>
                     <th>文件编号</th>
                     <th>文件名称</th>
                     <th>上传用户</th>
                     <th>上传时间</th>
+                    <th>初审</th>
+                    <th>二审</th>
+                    <th>终审</th>
                     <th>下载</th>
                 </tr>
             </thead>
             <tbody>
-                {% for file in p_files.object_list %}
+                {% for content in p_contents.object_list %}
                     <tr>
-                        <td>{{ file.id }}</td>
-                        <td>{{ file.filename }}</td>
-                        <td>{{ file.owner }}</td>
-                        <td>{{ file.add_time|date:"Y-m-d H:i:s" }}</td>
-                        <td><a href="{% url 'files:download' file.id %}">Download</a></td>
+                        <td>{{ forloop.counter|add:start }}</td>
+                        <td>{{ content.fileno }}</td>
+                        <td>{{ content.filename }}</td>
+                        <td>{{ content.owner }}</td>
+                        <td>{{ content.add_time|date:"Y-m-d H:i:s" }}</td>
+                        {% if request.user.role == '3' and request.user.sub_role == '1' %}
+                            <td><a href="{% url 'files:firstcheck' content.id %}">{{ content.get_first_check_display }}</a></td>
+                        {% else %}
+                            <td>{{ content.get_first_check_display }}</td>
+                        {% endif %}
+                        {% if request.user.role == '3' and request.user.sub_role == '2' %}
+                            <td><a href="{% url 'files:secondcheck' content.id %}">{{ content.get_second_check_display }}</a></td>
+                        {% else %}
+                            <td>{{ content.get_second_check_display }}</td>
+                        {% endif %}
+                        <td>{{ content.get_isapprove_display }}</td>
+                        <td><a href="{% url 'files:download' content.id %}">Download</a></td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
+
         <div class="page">
             <ul class="pagination">
-                {% if p_files.has_previous %}
-                    <li><a href="?{{ p_files.previous_page_number.querystring }}">&laquo;</a></li>
+                {% if p_contents.has_previous %}
+                    <li><a href="?{{ p_contents.previous_page_number.querystring }}">&laquo;</a></li>
                 {% endif %}
-                {% for page in p_files.pages %}
+                {% for page in p_contents.pages %}
                     {% if page %}
-                        {% ifequal page p_files.number %}
+                        {% ifequal page p_contents.number %}
                             <li class="active"><a href="?{{ page.querystring }}">{{ page }}</a></li>
                         {% else %}
                             <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
@@ -56,22 +78,23 @@
                         <li>...</li>
                     {% endif %}
                 {% endfor %}
-                {% if p_files.has_next %}
-                    <li><a href="?{{ p_files.next_page_number.querystring }}">&raquo;</a></li>
+                {% if p_contents.has_next %}
+                    <li><a href="?{{ p_contents.next_page_number.querystring }}">&raquo;</a></li>
                 {% endif %}
             </ul>
         </div>
     </div>
 {% endblock %}
+
 {% block custome_js %}
     <script>
-        var btn_file_upload = document.getElementById("btn_add");
-        btn_file_upload.onclick = function () {
+        var btn_upload = document.getElementById("btn_upload");
+        btn_upload.onclick = function () {
             location.href = "{% url 'files:upload' %}";
         };
 
-        var btn_export_list = document.getElementById("btn_export_list");
-        btn_export_list.onclick = function() {
+        var btn_export = document.getElementById("btn_export");
+        btn_export.onclick = function() {
             var search = document.getElementById("search").value;
             var url = "{% url 'files:export' %}";
             location.href = url + '?search=' + search;

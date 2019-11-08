@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
+
 {% load staticfiles %}
+
 {% block title %}文件管理 - 人员列表{% endblock %}
-{% block custome_css %}
-{% endblock %}
+
+{% block custome_css %}{% endblock %}
+
 {% block content %}
     <div class="content">
         <p>人员列表</p>
@@ -16,34 +19,42 @@
         </div>
         <button class="button-insert" id="btn_add">添加人员</button>
         <br/><br/>
+
         <table class="table-list">
             <thead>
                 <tr>
                     <th>序号</th>
+                    <th>工号</th>
                     <th>姓名</th>
                     <th>部门</th>
                     <th>角色</th>
+                    <th>子角色</th>
+                    <th>添加时间</th>
                 </tr>
             </thead>
             <tbody>
-                {% for user in p_users.object_list %}
+                {% for content in p_contents.object_list %}
                     <tr>
                         <td>{{ forloop.counter|add:start }}</td>
-                        <td><a href="{% url 'users:detail' user.id %}">{{ user.username }}</a></td>
-                        <td>{{ user.department }}</td>
-                        <td>{{ user.get_role_display }}</td>
+                        <td>{{ content.userno }}</td>
+                        <td><a href="{% url 'users:detail' content.id %}">{{ content.username }}</a></td>
+                        <td>{{ content.department }}</td>
+                        <td>{{ content.get_role_display }}</td>
+                        <td>{{ content.get_sub_role_display }}</td>
+                        <td>{{ content.add_time|date:"Y-m-d" }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
+
         <div class="page">
             <ul class="pagination">
-                {% if p_users.has_previous %}
-                    <li><a href="?{{ p_users.previous_page_number.querystring }}">&laquo;</a></li>
+                {% if p_contents.has_previous %}
+                    <li><a href="?{{ p_contents.previous_page_number.querystring }}">&laquo;</a></li>
                 {% endif %}
-                {% for page in p_users.pages %}
+                {% for page in p_contents.pages %}
                     {% if page %}
-                        {% ifequal page p_users.number %}
+                        {% ifequal page p_contents.number %}
                             <li class="active"><a href="?{{ page.querystring }}">{{ page }}</a></li>
                         {% else %}
                             <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
@@ -52,17 +63,18 @@
                         <li>...</li>
                     {% endif %}
                 {% endfor %}
-                {% if p_users.has_next %}
-                    <li><a href="?{{ p_users.next_page_number.querystring }}">&raquo;</a></li>
+                {% if p_contents.has_next %}
+                    <li><a href="?{{ p_contents.next_page_number.querystring }}">&raquo;</a></li>
                 {% endif %}
             </ul>
         </div>
     </div>
 {% endblock %}
+
 {% block custome_js %}
     <script>
-        var btn_person_add = document.getElementById("btn_add");
-        btn_person_add.onclick = function () {
+        var btn_add = document.getElementById("btn_add");
+        btn_add.onclick = function () {
             location.href = "{% url 'users:add' %}";
         };
     </script>

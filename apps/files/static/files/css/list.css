@@ -40,7 +40,7 @@ button:hover{
     float: right;
 }
 
-.nav-right-signout{
+.nav-right-logout{
     display: none;
     width: 100px;
     height: 80px;
@@ -54,15 +54,15 @@ button:hover{
     border: 1px solid grey;
 }
 
-.nav-right-signout dd:hover{
+.nav-right-logout dd:hover{
     background:  #1e9fff;
 }
 
-.nav-right-signout a{
+.nav-right-logout a{
     color: #fff;
 }
 
-.nav-right-name:hover .nav-right-signout{
+.nav-right-name:hover .nav-right-logout{
     display: block;
 }
 
@@ -151,7 +151,7 @@ button:hover{
 }
 
 .type-list{
-    width: 400px;  /*资产类型表格宽度设置*/
+    width: 400px;
 }
 
 table, td, th {

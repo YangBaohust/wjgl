@@ -1,9 +1,13 @@
 {% extends 'base.html' %}
+
 {% load staticfiles %}
+
 {% block title %}文件管理 - 上传文件{% endblock %}
+
 {% block custome_css %}
-    <link rel="stylesheet" href="{% static 'files/css/file-upload.css' %}">
+    <link rel="stylesheet" href="{% static 'files/css/upload.css' %}">
 {% endblock %}
+
 {% block content %}
     <div class="content">
         <p class="content-note1">上传文件<span class="content-note2"> (*请勿上传.exe和.bat和大于500MB的文件)</span></p>
@@ -26,6 +30,7 @@
         </form>
     </div>
 {% endblock %}
+
 {% block custome_js %}
     <script>
         function btn_cancel() {

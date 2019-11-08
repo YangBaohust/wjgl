@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}文件管理 - 审批记录{% endblock %}
+
+{% block custome_css %}{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <p>审批记录</p>
+        <div class="form-class">
+            <form action="" method="get">
+                <input id="search" class="form-text" type="text" placeholder="搜索..." name="search" value="{% if search %}{{ search }}{% endif %}"/>
+                <button class="form-submit" type="submit">
+                    <i class='fa fa-search' aria-hidden='true'></i>
+                </button>
+            </form>
+        </div>
+        <br/><br/>
+
+        <table class="table-list">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>文件编号</th>
+                    <th>文件名称</th>
+                    <th>上传用户</th>
+                    <th>上传时间</th>
+                    <th>审批结果</th>
+                    <th>审批时间</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for content in p_contents.object_list %}
+                    <tr>
+                        <td>{{ forloop.counter|add:start }}</td>
+                        <td>{{ content.fileno }}</td>
+                        <td>{{ content.filename }}</td>
+                        <td>{{ content.owner }}</td>
+                        <td>{{ content.add_time|date:"Y-m-d H:i:s" }}</td>
+                        <td>{{ content.get_isapprove_display }}</td>
+                        <td>{{ content.approve_time|date:"Y-m-d H:i:s" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="page">
+            <ul class="pagination">
+                {% if p_contents.has_previous %}
+                    <li><a href="?{{ p_contents.previous_page_number.querystring }}">&laquo;</a></li>
+                {% endif %}
+                {% for page in p_contents.pages %}
+                    {% if page %}
+                        {% ifequal page p_contents.number %}
+                            <li class="active"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                        {% else %}
+                            <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                        {% endifequal %}
+                    {% else %}
+                        <li>...</li>
+                    {% endif %}
+                {% endfor %}
+                {% if p_contents.has_next %}
+                    <li><a href="?{{ p_contents.next_page_number.querystring }}">&raquo;</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block custome_js %}{% endblock %}

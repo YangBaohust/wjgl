@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html  lang="en">
+
 {% load staticfiles %}
+
 <head>
 	<meta charset="UTF-8">
 	<title>404</title>
     <link rel="stylesheet" href="{% static 'css/error-page.css' %}">
 </head>
+
 <body>
     <div class="p404">
         <br/><br/>
-        <p>文件可能已经被删除了，请联系管理员~</p>
+        <p>{{ msg }}</p>
         <a href="{% url 'index' %}">回到首页</a>
     </div>
 </body>
+
 </html>

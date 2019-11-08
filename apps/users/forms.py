@@ -17,7 +17,8 @@ class UserPwdModifyForm(forms.Form):
 
 # 定义添加，修改用户时表单验证
 class UserInfoForm(forms.ModelForm):
-    username = forms.CharField(required=True)
+    userno = forms.CharField(required=True, max_length=15)
+    username = forms.CharField(required=True, max_length=15)
 
     class Meta:
         model = UserProfile
